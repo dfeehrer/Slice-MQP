@@ -3,10 +3,13 @@ import { connect } from 'react-redux';
 import * as firebase from 'firebase';
 import { login, logout, resetNext } from '../actions/auth';
 import { push } from 'react-router-redux';
+import '../index.css';
+
 
 class App extends React.Component {
 	state = {
-		loaded: false
+		loaded: false,
+		drawerOpen: false
 	};
 
 	styles = {

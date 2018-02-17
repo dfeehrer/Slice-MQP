@@ -13,6 +13,7 @@ import Register from './components/auth/Register'
 import Logout from './components/auth/Logout'
 import Dashboard from './components/secure/Dashboard'
 import Profile from './components/secure/Profile'
+import {MuiThemeProvider} from "material-ui";
 
 const reducer = combineReducers({
 	...reducers,
@@ -32,17 +33,19 @@ const history = syncHistoryWithStore(browserHistory, store);
 const secure = requireAuth(store);
 
 ReactDOM.render(
-	<Provider store={store}>
-		<Router history={history}>
-			<Route path='/' component={App}>
-				<IndexRoute component={Home}/>
-				<Route path='login' component={Login}/>
-				<Route path='register' component={Register}/>
-				<Route path='logout' component={Logout}/>
-				<Route path='dashboard' component={Dashboard} onEnter={secure}/>
-				<Route path='profile' component={Profile} onEnter={secure}/>
-			</Route>
-		</Router>
-	</Provider>,
+    <MuiThemeProvider>
+		<Provider store={store}>
+			<Router history={history}>
+				<Route path='/' component={App}>
+					<IndexRoute component={Home}/>
+					<Route path='login' component={Login}/>
+					<Route path='register' component={Register}/>
+					<Route path='logout' component={Logout}/>
+					<Route path='dashboard' component={Dashboard} onEnter={secure}/>
+					<Route path='profile' component={Profile} onEnter={secure}/>
+				</Route>
+			</Router>
+		</Provider>
+	</MuiThemeProvider>,
 	document.getElementById('root')
 );

@@ -1,6 +1,8 @@
 import React from 'react';
 import * as firebase from 'firebase';
 import { connect } from 'react-redux';
+import NavigationBar from "../NavigationBar";
+import SideDrawer from "../SideDrawer";
 
 
 class Register extends React.Component {
@@ -28,6 +30,8 @@ class Register extends React.Component {
 		var errors = this.state.error ? <p> {this.state.error} </p> : '';
 		return (
 			<div>
+				<NavigationBar/>
+				<SideDrawer/>
 				<h1>Register</h1>
 				<form onSubmit={this.handleSubmit.bind(this)}>
 					<label>Email <input type='email'

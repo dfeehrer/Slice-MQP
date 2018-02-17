@@ -30,4 +30,3 @@ export function resetNext() {
 		type: RESET_NEXT
 	}
 }
-
