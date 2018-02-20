@@ -3,6 +3,8 @@ import * as firebase from 'firebase';
 import { connect } from 'react-redux';
 import NavigationBar from "../NavigationBar";
 import SideDrawer from "../SideDrawer";
+import TextField from 'material-ui/TextField'
+import {RaisedButton} from "material-ui";
 
 
 class Login extends React.Component {
@@ -26,30 +28,62 @@ class Login extends React.Component {
 		this.setState(change);
 	}
 
+
+
 	render() {
-		var errors = this.state.error ? <p> {this.state.error} </p> : '';
+		let errors = this.state.error ? <p> {this.state.error} </p> : '';
+
+        const styles = {
+            errorStyle: {
+                color: 'orange',
+            },
+            underlineStyle: {
+                borderColor: 'orange',
+            },
+            floatingLabelStyle: {
+                color: 'orange',
+            },
+            floatingLabelFocusStyle: {
+                color: 'orange',
+            },
+        };
+
 		return (
 			<div>
 				<NavigationBar/>
 				<SideDrawer/>
-				<h1>Login</h1>
-				<form onSubmit={this.handleSubmit.bind(this)}>
-					<label>Email <input type='email'
-					                    placeholder='Email'
-					                    value={this.state.email}
-					                    onChange={this.onInputChange.bind(this, 'email')}
-					/></label>
-					<br/>
-					<label>Password <input type='password'
-					                       placeholder='Password'
-					                       value={this.state.password}
-					                       onChange={this.onInputChange.bind(this, 'password')}
-					/></label>
+				<div className="login-container">
+					<div className="login-box">
+						<div className="login-header">
+							<span>Login</span>
+						</div>
+						<form className="login-form" onSubmit={this.handleSubmit.bind(this)}>
+						<TextField type='email'
+							placeholder='Email'
+							value={this.state.email}
+							onChange={this.onInputChange.bind(this, 'email')}
+							id="email-input"
+							underlineStyle={styles.underlineStyle}
+							underlineFocusStyle={styles.underlineStyle}
 
-					{errors}
-					<br/>
-					<button type='submit'>Login</button>
-				</form>
+						/>
+						<br/>
+						<TextField type='password'
+						   placeholder='Password'
+						   value={this.state.password}
+						   onChange={this.onInputChange.bind(this, 'password')}
+						   id="password-input"
+						   underlineStyle={styles.underlineStyle}
+
+						/>
+						{errors}
+						<br/>
+						<div className="login-footer">
+							<RaisedButton fullwidth={true} type='submit' className="login-button">Login</RaisedButton>
+						</div>
+						</form>
+					</div>
+				</div>
 			</div>
 		);
 	}

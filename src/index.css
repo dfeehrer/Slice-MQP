@@ -42,15 +42,61 @@ button{
 
 .sandwichCard {
   width: 400px;
-  margin: 50px;
+  margin: 30px;
   display: inline-block;
 }
+
+.login-box {
+  -webkit-box-shadow: 2px 2px 4px rgba(50, 50, 50, 0.3);
+  -moz-box-shadow:  2px 2px 4px rgba(50, 50, 50, 0.3);
+  box-shadow:  2px 2px 4px rgba(50, 50, 50, 0.3);
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 300px;
+  height: 200px;
+}
+
+.login-container {
+  background: url('../public/sandwich-bg1.jpeg') no-repeat center center;
+  background-size: cover;
+  height: 100vh;
+  width: 100vw;
+}
+
+.login-form {
+  text-align: center;
+  background-color: white;
+}
+
+.login-header {
+  text-align: center;
+  background: orange;
+  padding: 15px 0;
+  width: 100%;
+  height: auto;
+  color: white;
+}
+
+.login-footer {
+  text-align: center;
+  padding: 5px 20px 15px 20px;
+}
+
+.login-button {
+  width: 100%;
+}
+
+
 
 @media screen and (max-width: 700px){
 
   .sandwichCard {
     width: 100%;
-    margin: 50px 0px;
+    margin: 30px 0;
   }
 
 }
