@@ -61,7 +61,7 @@ button{
 }
 
 .login-container {
-  background: url('../public/sandwich-bg1.jpeg') no-repeat center center;
+  background: url('../public/sandwich-bg1-small.jpg') no-repeat center center;
   background-size: cover;
   height: 100vh;
   width: 100vw;

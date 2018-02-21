@@ -14,6 +14,7 @@ const app = express();
 //  response.send("Hello from Firebase!");
 // });
 
+var db = admin.firestore();
 
 exports.placeOrder = functions.https.onRequest((req, res) => {
     // Grab the text parameter.
@@ -75,6 +76,28 @@ app.get('/hello', (req, res) => {
 // with value `Bearer <Firebase ID Token>`.
 exports.app = functions.https.onRequest(app);
 
+exports.createUser = functions.firestore
+    .document('orders/{orderId}')
+    .onCreate(event => {
+        // Get an object representing the document
+        // e.g. {'name': 'Marie', 'age': 66}
+        var newOrder = event.data.data();
+
+        // access a particular field as you would any JS property
+        var userId = newOrder.userId;
+
+        var orderId = newOrder.id;
+        var time = newOrder.time;
+
+        db.collection('queue').doc("fakeOrderId").set({
+            time: time,
+            userId: userId,
+            status: 'waiting'
+        }).then(function() {
+            //console.log("Document successfully updated!");
+        });
+        // perform desired operations ...
+    });
 
 /*
 

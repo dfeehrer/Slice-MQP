@@ -74,12 +74,13 @@ class Login extends React.Component {
 						   onChange={this.onInputChange.bind(this, 'password')}
 						   id="password-input"
 						   underlineStyle={styles.underlineStyle}
+						   underlineFocusStyle={styles.underlineStyle}
 
 						/>
 						{errors}
 						<br/>
 						<div className="login-footer">
-							<RaisedButton fullwidth={true} type='submit' className="login-button">Login</RaisedButton>
+							<RaisedButton type='submit' className="login-button">Login</RaisedButton>
 						</div>
 						</form>
 					</div>
