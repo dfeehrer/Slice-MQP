@@ -89,7 +89,7 @@ exports.createUser = functions.firestore
         var orderId = newOrder.id;
         var time = newOrder.time;
 
-        db.collection('queue').doc("fakeOrderId").set({
+        db.collection('queue').doc(event.data.id).set({
             time: time,
             userId: userId,
             status: 'waiting'

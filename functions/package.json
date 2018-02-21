@@ -9,13 +9,13 @@
     "logs": "firebase functions:log"
   },
   "dependencies": {
-    "firebase-admin": "~5.5.0",
-    "firebase-functions": "^0.7.1",
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.4",
     "debug": "~2.6.9",
     "express": "~4.15.5",
+    "firebase-admin": "~5.5.0",
+    "firebase-functions": "^0.8.1",
     "jade": "~1.11.0",
     "mongodb": "^2.2.33",
     "morgan": "~1.9.0",
