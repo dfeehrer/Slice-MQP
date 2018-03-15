@@ -9,8 +9,9 @@ class Home extends React.Component {
 		return (
 			<div>
 				<NavigationBar/>
-				<h1>Home</h1>
-				<Link to='/login'>Login</Link> <Link to='/register'>Register</Link>
+				<div className="home-welcome-banner">
+				<h1>Welcome to the future of fresh, fast and affordable.</h1>
+				</div>
 			</div>
 		)
 	}

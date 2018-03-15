@@ -3,7 +3,7 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import FlatButton from 'material-ui/FlatButton';
 import {fire, db} from '../Firebase'
 import * as firebase from 'firebase';
-import {Toggle} from "material-ui";
+import {Checkbox, Slider, Toggle} from "material-ui";
 import {connect} from "react-redux";
 
 
@@ -30,9 +30,9 @@ class SandwichCard extends React.Component {
     placeOrder() {
         let test = {
             userId: this.props.user.uid,
-            chips: false,
-            toastLevel: 1,
-            cheeseSlices: 1,
+            chips: 0,
+            toast: 1,
+            cheese: 1,
             time: firebase.firestore.FieldValue.serverTimestamp()
         };
         let newOrderRef = db.collection("orders").doc();
@@ -52,19 +52,27 @@ class SandwichCard extends React.Component {
         return (
             <Card className="sandwichCard">
                 <CardMedia
-                    overlay={<CardTitle title="World* Famous Grilled** Cheese"/>}
+                    overlay={<CardTitle title="World Famous Grilled Cheese"/>}
                 >
                     <img src="grilled-cheese.jpg" alt="" />
                 </CardMedia>
                 <CardText>
-                    Two slices of toasted bread with a warm slice of cheese in the middle. It's finger lickin' good.
-                    <p>* Where world is defined as WPI</p>
-                    <p>** "Toasted"</p>
+                    Two slices of toasted bread with a warm slice of cheese in the middle. It's grrrrreat!
                 </CardText>
                 <CardActions>
-                    <Toggle
+                    <label for="toastiness-slider">Toast level</label>
+
+                    <Slider
+                        step={1}
+                        value={2}
+                        min={1}
+                        max={3}
+                        name={'toastiness-slider'}
+                    />
+
+                    <Checkbox
                         label="Chips"
-                        defaultToggled={true}
+                        defaultChecked={true}
                     />
                     <FlatButton label="Order Now" onClick={this.placeOrder.bind(this)}/>
                 </CardActions>
