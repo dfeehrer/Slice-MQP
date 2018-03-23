@@ -30,15 +30,25 @@ exports.updateOrderStatus = functions.https.onRequest((req, res) => {
     // Grab the text parameter.
     const newStatus = req.query.status;
     const orderId = req.query.orderId;
-    // Push the new message into the Realtime Database using the Firebase Admin SDK.
 
-    db.collection('queue').doc(event.data.id).set({
-        time: time,
-        userId: userId,
-        status: 'waiting'
-    }).then(function() {
-        if(newStatus === 'complete') {
-            startNextOrder();
+    /*if(newStatus !== 'waiting' && newStatus !== 'assembling' && newStatus !== 'toasting' && newStatus !== 'done') {
+        return false;
+    }*/
+
+    return db.collection('queue').doc(orderId).get().then(function(doc) {
+        if (doc.exists) {
+            //console.log("Document data:", doc.data());
+            var updatedOrderObject = doc.data();
+            updatedOrderObject.status = newStatus;
+            return db.collection('queue').doc(orderId).set(updatedOrderObject); /*.then(function() {
+                // if(newStatus === 'complete') {
+                //  startNextOrder();
+                //  }
+            });*/
+
+        } else {
+            // doc.data() will be undefined in this case
+            //console.log("No such document!");
         }
     });
 });
@@ -119,13 +129,14 @@ exports.createOrder = functions.firestore
 
         // access a particular field as you would any JS property
         var userId = receivedOrder.userId;
-
         var time = receivedOrder.time;
+        var orderId = event.data.id;
 
         var strippedDownOrder = {};
         strippedDownOrder.cheese = receivedOrder.cheese;
         strippedDownOrder.chips = receivedOrder.chips;
         strippedDownOrder.toast = receivedOrder.toast;
+        strippedDownOrder.order = orderId;
 
         db.collection('queue').doc(event.data.id).set({
             time: time,
