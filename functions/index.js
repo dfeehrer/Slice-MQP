@@ -42,16 +42,30 @@ exports.updateOrderStatus = functions.https.onRequest((req, res) => {
         res.send('error getting order doc');
     }).then(function(doc) {
         if (doc.exists) {
-            orderRef.update({
-                status: newStatus
-            }).catch(function(error) {
-                res.send('error updating');
-            }).then(function() {
-                // if(newStatus === 'complete') {
-                //     startNextOrder();
-                // }
-                res.send(orderId + ' status changed successfully to ' + newStatus);
-            });
+
+            if(newStatus === 'done') {
+                orderRef.delete()
+                .catch(function(error) {
+                    res.send('error deleting finished order');
+                }).then(function() {
+                    // if(newStatus === 'complete') {
+                    //     startNextOrder();
+                    // }
+                    res.send(orderId + ' successfully deleted from queue');
+                });
+            } else {
+                orderRef.update({
+                    status: newStatus
+                }).catch(function(error) {
+                    res.send('error updating');
+                }).then(function() {
+                    // if(newStatus === 'complete') {
+                    //     startNextOrder();
+                    // }
+                    res.send(orderId + ' status changed successfully to ' + newStatus);
+                });
+            }
+
         } else {
             // doc.data() will be undefined in this case
             //console.log("No such document!");
@@ -109,31 +123,29 @@ function placeOrder(order) {
     let data = {};
     data.args = JSON.stringify(order);
 
-    /*db.collection('queue').doc(order.order).update({
+    return db.collection('queue').doc(order.order).update({
         status: 'sent'
     }).catch(function(error) {
         console.error('error setting order status to sent')
     }).then(function() {
+        return fetch(url, {
+            method: 'POST', // or 'PUT'
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+                //res.json({status: 'Successfully placed order'});
+                //console.log('Success:', response)
+                return response.json()}
+            )
+            .catch(error => {
+                //res.json({status: 'Successfully placed order'});
+                //res.err(JSON.stringify("Houston, we have a problem. In the sandwich order department."))
+
+                //console.error('Error:', error)
+            })
     });
-*/
-
-    return fetch(url, {
-        method: 'POST', // or 'PUT'
-        body: JSON.stringify(data),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).then(response => response.json())
-        .catch(error => {
-            //res.json({status: 'Successfully placed order'});
-            //res.err(JSON.stringify("Houston, we have a problem. In the sandwich order department."))
-
-            //console.error('Error:', error)
-        })
-        .then(response => {
-            //res.json({status: 'Successfully placed order'});
-            //console.log('Success:', response)
-        });
 }
 
 
