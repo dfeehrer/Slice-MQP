@@ -9,6 +9,15 @@ import {connect} from "react-redux";
 
 class SandwichCard extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            cheeseSlices: 2,
+            toastLevel: 2,
+            chips: false
+        };
+    }
+
     // Does an authenticated request to a Firebase Functions endpoint using an Authorization header.
     startFunctionsRequest() {
         fire.auth().currentUser.getToken().then(function(token) {
@@ -30,9 +39,9 @@ class SandwichCard extends React.Component {
     placeOrder() {
         let test = {
             userId: this.props.user.uid,
-            chips: 0,
-            toast: 1,
-            cheese: 1,
+            chips: this.state.chips ? 1 : 0,
+            toast: this.state.toastLevel,
+            cheese: this.state.cheeseSlices,
             time: firebase.firestore.FieldValue.serverTimestamp()
         };
         let newOrderRef = db.collection("orders").doc();
@@ -48,6 +57,22 @@ class SandwichCard extends React.Component {
             });
     }
 
+    handleCheeseSliderChange= (event, value) => {
+        this.setState({cheeseSlices: value});
+        console.log(this.state);
+        console.log(value);
+    }
+
+    handleToastSliderChange = (event, value) => {
+        this.setState({toastLevel: value});
+        console.log(value);
+    }
+
+    handleChipsCheckboxChange = (event, value) => {
+        this.setState({chips: event.target.checked});
+        console.log(this.state);
+    }
+
     render() {
         return (
             <Card className="sandwichCard">
@@ -60,19 +85,32 @@ class SandwichCard extends React.Component {
                     Two slices of toasted bread with a warm slice of cheese in the middle. It's grrrrreat!
                 </CardText>
                 <CardActions>
-                    <label for="toastiness-slider">Toast level</label>
+                    <label htmlFor="toastiness-slider">Toast level</label>
 
                     <Slider
                         step={1}
-                        value={2}
+                        value={this.state.toastLevel}
                         min={1}
                         max={3}
                         name={'toastiness-slider'}
+                        onChange={this.handleToastSliderChange.bind(this)}
+                    />
+
+                    <label htmlFor="cheese-slider">Cheese level</label>
+
+                    <Slider
+                        step={1}
+                        value={this.state.cheeseSlices}
+                        min={1}
+                        max={3}
+                        name={'cheese-slider'}
+                        onChange={this.handleCheeseSliderChange.bind(this)}
                     />
 
                     <Checkbox
                         label="Chips"
-                        defaultChecked={true}
+                        checked={this.state.chips}
+                        onCheck={this.handleChipsCheckboxChange.bind(this)}
                     />
                     <FlatButton label="Order Now" onClick={this.placeOrder.bind(this)}/>
                 </CardActions>

@@ -2,10 +2,10 @@ const functions = require('firebase-functions');
 let fetch = require('node-fetch');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
-const express = require('express');
-const cookieParser = require('cookie-parser')();
+//const express = require('express');
+//const cookieParser = require('cookie-parser')();
 const cors = require('cors')({origin: true});
-const app = express();
+//const app = express();
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -16,7 +16,7 @@ const app = express();
 
 var db = admin.firestore();
 
-exports.placeOrder = functions.https.onRequest((req, res) => {
+/*exports.placeOrder = functions.https.onRequest((req, res) => {
     // Grab the text parameter.
     const original = req.query.quantity;
     // Push the new message into the Realtime Database using the Firebase Admin SDK.
@@ -24,40 +24,129 @@ exports.placeOrder = functions.https.onRequest((req, res) => {
         // Redirect with 303 SEE OTHER to the URL of the pushed object in the Firebase console.
         res.redirect(303, snapshot.ref);
     });
-});
+});*/
 
 exports.updateOrderStatus = functions.https.onRequest((req, res) => {
-    // Grab the text parameter.
-    const newStatus = req.query.status;
+    const newStatus = req.query.newStatus;
     const orderId = req.query.orderId;
 
-    /*if(newStatus !== 'waiting' && newStatus !== 'assembling' && newStatus !== 'toasting' && newStatus !== 'done') {
-        return false;
-    }*/
+    if(newStatus !== 'waiting' && newStatus !== 'assembling' && newStatus !== 'toasting' && newStatus !== 'done') {
+        res.send('error');
+    }
+    //res.send(orderId + ' status changed successfully');
 
-    return db.collection('queue').doc(orderId).get().then(function(doc) {
+    var orderRef = db.collection('queue').doc(orderId);
+
+    orderRef.get().catch(function(error) {
+        console.error("Error updating document: ", error);
+        res.send('error getting order doc');
+    }).then(function(doc) {
         if (doc.exists) {
-            //console.log("Document data:", doc.data());
-            var updatedOrderObject = doc.data();
-            updatedOrderObject.status = newStatus;
-            return db.collection('queue').doc(orderId).set(updatedOrderObject); /*.then(function() {
+            orderRef.update({
+                status: newStatus
+            }).catch(function(error) {
+                res.send('error updating');
+            }).then(function() {
                 // if(newStatus === 'complete') {
-                //  startNextOrder();
-                //  }
-            });*/
-
+                //     startNextOrder();
+                // }
+                res.send(orderId + ' status changed successfully to ' + newStatus);
+            });
         } else {
             // doc.data() will be undefined in this case
             //console.log("No such document!");
+            //return false;
+            res.send('doc does not exist');
         }
     });
+
 });
+
+exports.createOrder = functions.firestore
+    .document('orders/{orderId}')
+    .onCreate(event => {
+        // Get an object representing the document
+        // e.g. {'name': 'Marie', 'age': 66}
+        var receivedOrder = event.data.data();
+
+        // access a particular field as you would any JS property
+        var userId = receivedOrder.userId;
+        var time = receivedOrder.time;
+        var orderId = event.data.id;
+
+        var strippedDownOrder = createStrippedDownOrderObject(receivedOrder, orderId);
+
+        return db.collection('queue').doc(event.data.id).set({
+            time: time,
+            userId: userId,
+            status: 'waiting'
+        }).then(function() {
+            //console.log("Document successfully updated!");
+            placeOrder(strippedDownOrder).then(response => {
+                return true;
+            });
+        });
+
+        // perform desired operations ...
+    });
+
+function createStrippedDownOrderObject(completeOrder, orderId) {
+
+    var userId = completeOrder.userId;
+    var time = completeOrder.time;
+
+    var strippedDownOrder = {};
+    strippedDownOrder.cheese = completeOrder.cheese;
+    strippedDownOrder.chips = completeOrder.chips;
+    strippedDownOrder.toast = completeOrder.toast;
+    strippedDownOrder.order = orderId;
+
+    return strippedDownOrder;
+}
+
+function placeOrder(order) {
+    let url = 'https://api.particle.io/v1/devices/2f001a000447343138333038/order?access_token=280069fce3d1ce9b04b8c2431421a5615268c7cf';
+    let data = {};
+    data.args = JSON.stringify(order);
+
+    /*db.collection('queue').doc(order.order).update({
+        status: 'sent'
+    }).catch(function(error) {
+        console.error('error setting order status to sent')
+    }).then(function() {
+    });
+*/
+
+    return fetch(url, {
+        method: 'POST', // or 'PUT'
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => response.json())
+        .catch(error => {
+            //res.json({status: 'Successfully placed order'});
+            //res.err(JSON.stringify("Houston, we have a problem. In the sandwich order department."))
+
+            //console.error('Error:', error)
+        })
+        .then(response => {
+            //res.json({status: 'Successfully placed order'});
+            //console.log('Success:', response)
+        });
+}
 
 
 function startNextOrder() {
     db.collection('queue').get().then(function(querySnapchat) {
         var numOrdersInQueue = querySnapchat.size;
 
+        if(numOrdersInQueue > 0) {
+            //get the single oldest order in the queue
+            var oldestOrder = db.collection('queue').orderBy("time").limit(1).get().then(function(doc) {
+
+            });
+        }
     });
 /*
         .doc(event.data.id).set({
@@ -75,7 +164,7 @@ function startNextOrder() {
 // The Firebase ID token needs to be passed as a Bearer token in the Authorization HTTP header like this:
 // `Authorization: Bearer <Firebase ID Token>`.
 // when decoded successfully, the ID Token content will be added as `req.user`.
-const validateFirebaseIdToken = (req, res, next) => {
+/*const validateFirebaseIdToken = (req, res, next) => {
     console.log('Check if request is authorized with Firebase ID token');
 
     if ((!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) &&
@@ -114,67 +203,14 @@ app.use(validateFirebaseIdToken);
 app.get('/hello', (req, res) => {
     res.send(`Hello ${req.user.name}`);
 });
+*/
 
 // This HTTPS endpoint can only be accessed by your Firebase Users.
 // Requests need to be authorized by providing an `Authorization` HTTP header
 // with value `Bearer <Firebase ID Token>`.
-exports.app = functions.https.onRequest(app);
-
-exports.createOrder = functions.firestore
-    .document('orders/{orderId}')
-    .onCreate(event => {
-        // Get an object representing the document
-        // e.g. {'name': 'Marie', 'age': 66}
-        var receivedOrder = event.data.data();
-
-        // access a particular field as you would any JS property
-        var userId = receivedOrder.userId;
-        var time = receivedOrder.time;
-        var orderId = event.data.id;
-
-        var strippedDownOrder = {};
-        strippedDownOrder.cheese = receivedOrder.cheese;
-        strippedDownOrder.chips = receivedOrder.chips;
-        strippedDownOrder.toast = receivedOrder.toast;
-        strippedDownOrder.order = orderId;
-
-        db.collection('queue').doc(event.data.id).set({
-            time: time,
-            userId: userId,
-            status: 'waiting'
-        }).then(function() {
-            //console.log("Document successfully updated!");
-        });
-
-        placeOrder(strippedDownOrder).then(response => {
-            return true;
-        });
-        // perform desired operations ...
-    });
+//exports.app = functions.https.onRequest(app);
 
 
-function placeOrder(order) {
-    let url = 'https://api.particle.io/v1/devices/2f001a000447343138333038/order?access_token=280069fce3d1ce9b04b8c2431421a5615268c7cf';
-    let data = {};
-    data.args = JSON.stringify(order);
-    return fetch(url, {
-        method: 'POST', // or 'PUT'
-        body: JSON.stringify(data),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).then(response => response.json())
-        .catch(error => {
-            //res.json({status: 'Successfully placed order'});
-            //res.err(JSON.stringify("Houston, we have a problem. In the sandwich order department."))
-
-            //console.error('Error:', error)
-        })
-        .then(response => {
-            //res.json({status: 'Successfully placed order'});
-            //console.log('Success:', response)
-        });
-}
 
 /*
 

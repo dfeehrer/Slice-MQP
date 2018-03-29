@@ -99,12 +99,49 @@ button{
   z-index: -100;
 }
 
-
 @media screen and (max-width: 700px){
 
   .sandwichCard {
     width: 100%;
     margin: 30px 0;
   }
+}
 
+.order-status {
+
+}
+
+.order-status .status-item {
+  text-align: center;
+  display: flex;
+  width: 100vw;
+  height: 33.33vh;
+  vertical-align: middle;
+}
+
+.order-status .status-item h2 {
+  margin: auto;
+}
+
+.order-status .status-item.waiting {
+  background-color: #ffc580;
+
+}
+
+.order-status .status-item.assembling {
+  background-color: #ffaa4e;
+}
+
+.order-status .status-item.toasting {
+  background-color: #ff6939;
+}
+
+.status-item-title {
+  margin: auto;
+}
+
+.status-icon {
+  width: 30px;
+  height: 30px;
+  margin: auto;
 }

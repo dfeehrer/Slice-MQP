@@ -5,36 +5,37 @@ import SandwichCard from "../SandwichCard";
 import SideDrawer from "../SideDrawer";
 import NavigationBar from "../NavigationBar";
 import MenuList from "./MenuList";
+import OrderStatus from "./OrderStatus";
 
 class Dashboard extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-            drawerOpen: false
-        };
-	}
-
-    handleDrawerToggle() {
-		this.setState({
-            drawerOpen: !this.state.drawerOpen
-        })
 	}
 
 	render() {
 		return (
 			<div>
 				<NavigationBar
-					drawerOpen={this.state.drawerOpen}
-					onDrawerToggle={this.handleDrawerToggle.bind(this)}
 				/>
 				<SandwichCard/>
 				<SandwichCard/>
 				<SandwichCard/>
 				<SideDrawer/>
+				<OrderStatus/>
 			</div>
 		)
 	}
+
+    // render() {
+    //     return (
+		// 	<div>
+		// 		<NavigationBar
+		// 		/>
+		// 		<OrderStatus/>
+		// 	</div>
+    //     )
+    // }
 }
 
 export default connect()(Dashboard);
