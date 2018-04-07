@@ -16,16 +16,21 @@ class Dashboard extends React.Component {
 	renderOrderOrStatusPage() {
 		if(this.props.orderId) {
 			return (
-				<OrderStatus/>
+				<div>
+					<NavigationBar/>
+					<OrderStatus/>
+					<SideDrawer/>
+				</div>
             );
         } else {
 			return (
 				<div>
-					<NavigationBar
-					/>
-					<SandwichCard/>
-					<SandwichCard/>
-					<SandwichCard/>
+					<NavigationBar/>
+					<div className="menu-container">
+						<SandwichCard/>
+						<SandwichCard/>
+						<SandwichCard/>
+					</div>
 					<SideDrawer/>
 				</div>
 			);
@@ -35,19 +40,9 @@ class Dashboard extends React.Component {
 	render() {
 		return this.renderOrderOrStatusPage();
 	}
-
-    // render() {
-    //     return (
-		// 	<div>
-		// 		<NavigationBar
-		// 		/>
-		// 		<OrderStatus/>
-		// 	</div>
-    //     )
-    // }
 }
 
-export default connect(state => ({ orderId: state.order.orderId}), dispatch => ({
+export default connect(state => ({ orderId: state.order.orderId, user: state.auth.user}), dispatch => ({
 
 }))(Dashboard);
 

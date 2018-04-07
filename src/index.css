@@ -63,7 +63,7 @@ button{
 .login-container {
   background: url('../public/sandwich-bg1-small.jpg') no-repeat center center;
   background-size: cover;
-  height: 100vh;
+  height: calc(100vh - 64px);
   width: 100vw;
 }
 
@@ -94,9 +94,20 @@ button{
 .home-welcome-banner {
   background: url('../public/sandwich-bg1-small.jpg') no-repeat center center;
   background-size: cover;
-  height: 100vh;
+  height: calc(100vh - 64px);
   width: 100vw;
   z-index: -100;
+  position: absolute;
+  display: flex;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.home-welcome-banner h1{
+  margin: auto;
+  text-align: center;
+  color: whitesmoke;
+  text-shadow: 2px 2px 3px rgba(0,0,0,0.5);
 }
 
 @media screen and (max-width: 700px){
@@ -115,7 +126,7 @@ button{
   text-align: center;
   display: flex;
   width: 100vw;
-  height: 33.33vh;
+  height: calc((100vh - 64px) / 3);
   vertical-align: middle;
 }
 
@@ -151,4 +162,15 @@ button{
   width: 30px;
   height: 30px;
   margin: auto;
+}
+.menu-container {
+  position: absolute;
+}
+
+.error-message {
+  border: 1px rgba(255, 0, 0, 0.40) solid;
+  border-radius: 4px;
+  padding: 5px;
+  margin-top: 15px;
+  background-color: rgba(255, 0, 0, 0.10);
 }

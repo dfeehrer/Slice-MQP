@@ -27,6 +27,13 @@ class Register extends React.Component {
 		this.setState(change);
 	}
 
+    renderErrorMessage() {
+        if(!this.state.error) {
+            return null;
+        }
+        return (<div className="error-message">{this.state.error.message}</div>)
+    }
+
 	render() {
 		let errors = this.state.error ? <p> {this.state.error} </p> : '';
 
@@ -76,7 +83,8 @@ class Register extends React.Component {
 							{errors}
 							<br/>
 							<div className="login-footer">
-								<RaisedButton type='submit' className="login-button">Login</RaisedButton>
+								<RaisedButton type='submit' className="login-button">Register</RaisedButton>
+                                {this.renderErrorMessage()}
 							</div>
 						</form>
 					</div>
