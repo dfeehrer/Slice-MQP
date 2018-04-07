@@ -152,11 +152,12 @@ function placeOrder(order) {
 function startNextOrder() {
     db.collection('queue').get().then(function(querySnapchat) {
         var numOrdersInQueue = querySnapchat.size;
-
         if(numOrdersInQueue > 0) {
             //get the single oldest order in the queue
-            var oldestOrder = db.collection('queue').orderBy("time").limit(1).get().then(function(doc) {
-
+            db.collection('queue').orderBy("time").limit(1).get().then(function(doc) {
+                if(strippedDownOrder.status)
+                var strippedDownOrder = createStrippedDownOrderObject(doc, doc.id);
+                placeOrder(strippedDownOrder);
             });
         }
     });

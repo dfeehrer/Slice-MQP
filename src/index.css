@@ -125,15 +125,22 @@ button{
 
 .order-status .status-item.waiting {
   background-color: #ffc580;
+  opacity: 0.4;
 
 }
 
 .order-status .status-item.assembling {
   background-color: #ffaa4e;
+  opacity: 0.4;
 }
 
 .order-status .status-item.toasting {
   background-color: #ff6939;
+  opacity: 0.4;
+}
+
+.order-status .status-item.active {
+  opacity: 1;
 }
 
 .status-item-title {

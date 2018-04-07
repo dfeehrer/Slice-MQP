@@ -5,6 +5,7 @@ import {fire, db} from '../Firebase'
 import * as firebase from 'firebase';
 import {Checkbox, Slider, Toggle} from "material-ui";
 import {connect} from "react-redux";
+import {setOrderId} from "../actions/order";
 
 
 class SandwichCard extends React.Component {
@@ -47,13 +48,14 @@ class SandwichCard extends React.Component {
         let newOrderRef = db.collection("orders").doc();
         console.log("Made a new order ref: ", newOrderRef);
         console.log(this.props.user);
-
         newOrderRef.set(test)
-            .then(function() {
-                //console.log("Document successfully written!");
+            .then(() => {
+                let orderId = newOrderRef.id;
+                alert(orderId);
+                this.props.onPlaceOrder(orderId);
             })
             .catch(function(error) {
-                //console.error("Error writing document: ", error);
+                console.error("Error writing document: ", error);
             });
     }
 
@@ -120,7 +122,10 @@ class SandwichCard extends React.Component {
 
 };
 
-export default connect(state => ({ next: state.auth.next, user: state.auth.user }), dispatch => ({
-
+export default connect(state => ({ next: state.auth.next, user: state.auth.user, orderId: state.order.orderId, status: state.order.status}), dispatch => ({
+    onPlaceOrder: (orderId) => {
+        console.log('place order')
+        dispatch(setOrderId(orderId));
+    }
 }))(SandwichCard);
 

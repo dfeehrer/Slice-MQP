@@ -1,30 +1,23 @@
-export const SET_ORDER = 'SET_ORDER';
-export const CLEAR_ORDER = 'CLEAR_ORDER';
+export const SET_ORDER_ID = 'SET_ORDER_ID';
+export const CLEAR_ORDER_ID = 'CLEAR_ORDER_ID';
 export const SET_ORDER_STATUS = 'SET_ORDER_STATUS';
 
-export function login(user) {
+export function setOrderId(orderId) {
 	return {
-		type: LOGIN,
-		user
+		type: SET_ORDER_ID,
+        orderId
 	}
 }
 
-export function logout() {
+export function clearOrderId() {
 	return {
-		type: LOGOUT
+		type: CLEAR_ORDER_ID
 	}
 }
 
-
-export function setNext(next) {
-	return {
-		type: SET_NEXT,
-		next
-	}
-}
-
-export function resetNext() {
-	return {
-		type: RESET_NEXT
-	}
+export function setOrderStatus(status) {
+    return {
+        type: SET_ORDER_STATUS,
+		status
+    }
 }
