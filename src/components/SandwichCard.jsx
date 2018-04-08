@@ -51,7 +51,6 @@ class SandwichCard extends React.Component {
         newOrderRef.set(test)
             .then(() => {
                 let orderId = newOrderRef.id;
-                alert(orderId);
                 this.props.onPlaceOrder(orderId);
             })
             .catch(function(error) {
