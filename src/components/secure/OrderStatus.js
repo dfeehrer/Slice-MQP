@@ -36,7 +36,7 @@ class OrderStatus extends React.Component {
 						<div className="status-item-title">
 							<img className="status-icon" src="done.svg"/>
 							<h2>Ready for pickup! </h2>
-							<a>Done.</a>
+							<a onClick={this.props.onOrderComplete.bind(this)}>Done.</a>
 						</div>
 					</div>
 				</div>
