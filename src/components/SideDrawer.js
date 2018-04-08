@@ -21,8 +21,16 @@ class SideDrawer extends React.Component {
                     <IconButton onClick={this.props.onCloseClick.bind(this)}>
                         <NavigationClose/>
                     </IconButton>
-                    <MenuItem containerElement={<Link to="/login"/>} onClick={this.props.onCloseClick.bind(this)}>Login</MenuItem>
-                    <MenuItem containerElement={<Link to="/register"/>} onClick={this.props.onCloseClick.bind(this)}>Register</MenuItem>
+
+                    {this.props.user ?
+                        <MenuItem containerElement={<Link to="/logout"/>} onClick={this.props.onCloseClick.bind(this)}>Logout</MenuItem>
+                            :
+                        <div>
+                            <MenuItem containerElement={<Link to="/login"/>} onClick={this.props.onCloseClick.bind(this)}>Login</MenuItem>
+                            <MenuItem containerElement={<Link to="/register"/>} onClick={this.props.onCloseClick.bind(this)}>Register</MenuItem>
+                        </div>
+                    }
+
                 </Drawer>
             </div>
         );
@@ -30,7 +38,7 @@ class SideDrawer extends React.Component {
 }
 
 
-export default connect(state => ({ open: state.drawer.open }), dispatch => ({
+export default connect(state => ({ open: state.drawer.open, user: state.auth.user}), dispatch => ({
     onCloseClick: () => {
         dispatch(closeDrawer());
     }
