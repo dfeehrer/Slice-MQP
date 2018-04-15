@@ -21,10 +21,14 @@ class Login extends Component {
     static muiName = 'FlatButton';
 
     render() {
-        return (<FlatButton
-        containerElement={<Link to="/login" />}
-        linkButton={true}
-        label={'Login'}/>
+        return (
+            <div className="nav-login-button">
+                <FlatButton
+                    containerElement={<Link to="/login" />}
+                    linkButton={true}
+                    label={'Login'}
+                />
+            </div>
         );
     }
 }

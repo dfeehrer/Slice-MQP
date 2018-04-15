@@ -189,3 +189,7 @@ button{
   margin-top: 15px;
   background-color: rgba(255, 0, 0, 0.10);
 }
+
+.nav-login-button {
+  margin-top: 6px;
+}

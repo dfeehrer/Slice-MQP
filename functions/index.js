@@ -5,6 +5,10 @@ admin.initializeApp(functions.config().firebase);
 //const express = require('express');
 //const cookieParser = require('cookie-parser')();
 const cors = require('cors')({origin: true});
+
+const PARTICLE_DEVICE_ID = '420030000c47343233323032';
+const ACCESS_TOKEN = '280069fce3d1ce9b04b8c2431421a5615268c7cf';
+
 //const app = express();
 
 // // Create and Deploy Your First Cloud Functions
@@ -119,7 +123,7 @@ function createStrippedDownOrderObject(completeOrder, orderId) {
 }
 
 function placeOrder(order) {
-    let url = 'https://api.particle.io/v1/devices/2f001a000447343138333038/order?access_token=280069fce3d1ce9b04b8c2431421a5615268c7cf';
+    let url = 'https://api.particle.io/v1/devices/'+ PARTICLE_DEVICE_ID + '/order?access_token=' + ACCESS_TOKEN;
     let data = {};
     data.args = JSON.stringify(order);
 
