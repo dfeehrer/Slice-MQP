@@ -6,12 +6,30 @@ import SideDrawer from "../SideDrawer";
 import NavigationBar from "../NavigationBar";
 import MenuList from "./MenuList";
 import OrderStatus from "./OrderStatus";
+import {fire, db} from '../../Firebase'
+
 
 class Dashboard extends React.Component {
 
 	constructor(props) {
 		super(props);
+
+		this.state = {
+			menuItems: []
+		};
 	}
+
+    componentDidMount() {
+		let items = [];
+        db.collection("menu").get().then((querySnapshot) => {
+
+        	querySnapshot.forEach((doc) => {
+                items.push(doc.data());
+			});
+
+        	this.setState({menuItems: items});
+		});
+    }
 
 	renderOrderOrStatusPage() {
 		if(this.props.orderId) {
@@ -26,14 +44,47 @@ class Dashboard extends React.Component {
 			return (
 				<div>
 					<NavigationBar/>
+					<SideDrawer/>
+					{this.state.menuItems.map((item) => {
+						return (
+							<SandwichCard
+								title={item.title}
+								img={item.img}
+								description={item.description}
+								bread={item.bread}
+							/>
+						);
+					})}
+				</div>
+		);
+
+			/*return (
+				<div>
+					<NavigationBar/>
 					<div className="menu-container">
-						<SandwichCard/>
-						<SandwichCard/>
-						<SandwichCard/>
+						<SandwichCard
+							title="Original Toasted Cheese"
+							img="grilled-cheese.jpg"
+							description="Our original claim to fame."
+							bread={2}
+						/>
+						<SandwichCard
+							title="The Reynold's Special"
+							img="grilled-cheese.jpg"
+							description="Open faced"
+							bread={1}
+						/>
+						<SandwichCard
+							title="The Turtleboy"
+							img="grilled-cheese.jpg"
+							description="A local favorite."
+							bread={2}
+							cheese=""
+						/>
 					</div>
 					<SideDrawer/>
 				</div>
-			);
+			);*/
 		}
 	}
 
@@ -45,6 +96,36 @@ class Dashboard extends React.Component {
 export default connect(state => ({ orderId: state.order.orderId, user: state.auth.user}), dispatch => ({
 
 }))(Dashboard);
+
+/*
+ <div>
+ <NavigationBar/>
+ <div className="menu-container">
+ <SandwichCard
+ title="Original Toasted Cheese"
+ img="grilled-cheese.jpg"
+ description="Our original claim to fame."
+ bread={2}
+ />
+ <SandwichCard
+ title="The Reynold's Special"
+ img="grilled-cheese.jpg"
+ description="Open faced"
+ bread={1}
+ />
+ <SandwichCard
+ title="The Turtleboy"
+ img="grilled-cheese.jpg"
+ description="A local favorite."
+ bread={2}
+ cheese=""
+ />
+ </div>
+ <SideDrawer/>
+ </div>
+*/
+
+
 
 /*
  <h1>Dashboard</h1>

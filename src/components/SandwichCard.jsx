@@ -78,12 +78,12 @@ class SandwichCard extends React.Component {
         return (
             <Card className="sandwichCard">
                 <CardMedia
-                    overlay={<CardTitle title="World Famous Grilled Cheese"/>}
+                    overlay={<CardTitle title={this.props.title}/>}
                 >
-                    <img src="grilled-cheese.jpg" alt="" />
+                    <img src={this.props.img} alt="" />
                 </CardMedia>
                 <CardText>
-                    Two slices of toasted bread with a warm slice of cheese in the middle. It's grrrrreat!
+                    {this.props.description}
                 </CardText>
                 <CardActions>
                     <label htmlFor="toastiness-slider">Toast level</label>
