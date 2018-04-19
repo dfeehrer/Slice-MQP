@@ -45,16 +45,9 @@ class Dashboard extends React.Component {
 				<div>
 					<NavigationBar/>
 					<SideDrawer/>
-					{this.state.menuItems.map((item) => {
-						return (
-							<SandwichCard
-								title={item.title}
-								img={item.img}
-								description={item.description}
-								bread={item.bread}
-							/>
-						);
-					})}
+					<MenuList
+						menuItems={this.state.menuItems}
+					/>
 				</div>
 		);
 
