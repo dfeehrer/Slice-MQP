@@ -83,7 +83,12 @@ class SandwichCard extends React.Component {
                 {this.props.itemData ?
                     <div>
                         <CardMedia
-                            overlay={<CardTitle title={this.props.itemData.title}/>}
+                            overlay={<CardTitle
+                                title={this.props.itemData.title}
+                                titleStyle={{fontSize: '12pt', padding: '0px'}}
+                                style={{padding: '0px 10px 5px 10px'}}
+
+                            />}
                         >
                             <img src={this.props.itemData.img} alt="" />
                         </CardMedia>

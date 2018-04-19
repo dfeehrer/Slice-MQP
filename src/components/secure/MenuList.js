@@ -73,6 +73,7 @@ class MenuList extends React.Component {
                                 rows={item.featured ? 2 : 1}
                                 titleStyle={{textOverflow: '', whiteSpace: 'wrap'}}
                                 onClick={this.handleMenuItemClick.bind(this, i)}
+
                             >
                                 <img src={item.img}/>
                             </GridTile>

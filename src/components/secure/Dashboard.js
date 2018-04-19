@@ -118,13 +118,3 @@ export default connect(state => ({ orderId: state.order.orderId, user: state.aut
  </div>
 */
 
-
-
-/*
- <h1>Dashboard</h1>
- Welcome
- <br/>
- <Link to='/profile'>Profile</Link>
- <br/>
- <Link to='/logout'>Logout</Link>
- */
