@@ -3,7 +3,7 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import FlatButton from 'material-ui/FlatButton';
 import {fire, db} from '../Firebase'
 import * as firebase from 'firebase';
-import {Checkbox, Dialog, Slider, Toggle} from "material-ui";
+import {Checkbox, Dialog, RaisedButton, Slider, Toggle} from "material-ui";
 import {connect} from "react-redux";
 import {setOrderId} from "../actions/order";
 
@@ -79,6 +79,11 @@ class SandwichCard extends React.Component {
             <Dialog
                 open={this.props.open}
                 onRequestClose={this.props.onRequestClose}
+                // style={{width: '95vw'}}
+                // paperClassName="sandwich-dialog-paper"
+                // className="sandwich-dialog-paper"
+                autoScrollBodyContent={true}
+
             >
                 {this.props.itemData ?
                     <div>
@@ -118,12 +123,16 @@ class SandwichCard extends React.Component {
                         onChange={this.handleCheeseSliderChange.bind(this)}
                         />
 
-                        <Checkbox
-                        label="Chips"
-                        checked={this.state.chips}
-                        onCheck={this.handleChipsCheckboxChange.bind(this)}
+                        {/*<Checkbox*/}
+                        {/*label="Chips"*/}
+                        {/*checked={this.state.chips}*/}
+                        {/*onCheck={this.handleChipsCheckboxChange.bind(this)}*/}
+                        {/*/>*/}
+                        <RaisedButton
+                            label="Order Now"
+                            onClick={this.placeOrder.bind(this)}
+                            style={{width: '100%'}}
                         />
-                        <FlatButton label="Order Now" onClick={this.placeOrder.bind(this)}/>
                         </CardActions>
                     </div>
                 :
