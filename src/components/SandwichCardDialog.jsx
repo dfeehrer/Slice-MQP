@@ -101,7 +101,24 @@ class SandwichCard extends React.Component {
                         {this.props.itemData.description}
                         </CardText>
                         <CardActions>
-                        <label htmlFor="toastiness-slider">Toast level</label>
+                        <label htmlFor="toastiness-slider">
+                            {
+                                'Toast level: ' + (
+                                    (() => {
+                                        switch(this.state.toastLevel) {
+                                            case 1:
+                                                return 'Light';
+                                            case 2:
+                                                return 'Medium';
+                                            case 3:
+                                                return 'Dark';
+                                        }
+
+                                    })()
+                                )
+
+                            }
+                        </label>
 
                         <Slider
                         step={1}
@@ -112,7 +129,7 @@ class SandwichCard extends React.Component {
                         onChange={this.handleToastSliderChange.bind(this)}
                         />
 
-                        <label htmlFor="cheese-slider">Cheese level</label>
+                        <label htmlFor="cheese-slider">{'Cheese slices: ' + this.state.cheeseSlices}</label>
 
                         <Slider
                         step={1}

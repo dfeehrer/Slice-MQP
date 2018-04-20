@@ -12,6 +12,7 @@
   "dependencies": {
     "firebase": "^4.9.0",
     "material-ui": "^0.20.0",
+    "material-ui-slider-label": "git+https://github.com/tariqwest/material-ui-slider-label.git",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-redux": "^4.4.5",
