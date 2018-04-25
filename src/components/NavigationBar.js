@@ -1,19 +1,12 @@
-/**
- * This example is taking advantage of the composability of the `AppBar`
- * to render different components depending on the application state.
- */
 import React, {Component} from 'react';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
-import Toggle from 'material-ui/Toggle';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import { connect } from 'react-redux';
 import {Link} from "react-router";
-import SideDrawer from './SideDrawer';
 import {NavigationMenu} from "material-ui/svg-icons/index";
 import {openDrawer} from "../actions/drawer";
 
@@ -78,16 +71,3 @@ export default connect(state => ({ open: state.drawer.open, user: state.auth.use
         dispatch(openDrawer());
     }
 }))(NavigationBar);
-
-
-/*
-
-
- <Toggle
- label="Logged"
- defaultToggled={!!this.props.user}
- onToggle={this.handleChange}
- labelPosition="right"
- style={{margin: 20}}
- />
- */

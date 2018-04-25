@@ -1,12 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
-import SandwichCard from "../SandwichCard";
 import SideDrawer from "../SideDrawer";
 import NavigationBar from "../NavigationBar";
 import MenuList from "./MenuList";
 import OrderStatus from "./OrderStatus";
-import {fire, db} from '../../Firebase'
+import {db} from '../../Firebase'
 
 
 class Dashboard extends React.Component {

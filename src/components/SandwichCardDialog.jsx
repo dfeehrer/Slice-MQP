@@ -1,9 +1,8 @@
 import React from 'react';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
+import {CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import {fire, db} from '../Firebase'
 import * as firebase from 'firebase';
-import {Checkbox, Dialog, RaisedButton, Slider, Toggle} from "material-ui";
+import {Dialog, RaisedButton, Slider, Toggle} from "material-ui";
 import {connect} from "react-redux";
 import {setOrderId} from "../actions/order";
 

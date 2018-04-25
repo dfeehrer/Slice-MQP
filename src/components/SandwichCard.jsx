@@ -7,7 +7,6 @@ import {Checkbox, Slider, Toggle} from "material-ui";
 import {connect} from "react-redux";
 import {setOrderId} from "../actions/order";
 
-
 class SandwichCard extends React.Component {
 
     constructor(props) {
@@ -38,7 +37,7 @@ class SandwichCard extends React.Component {
     };
 
     placeOrder() {
-        let test = {
+        let order = {
             userId: this.props.user.uid,
             chips: this.state.chips ? 1 : 0,
             toast: this.state.toastLevel,
@@ -48,7 +47,7 @@ class SandwichCard extends React.Component {
         let newOrderRef = db.collection("orders").doc();
         console.log("Made a new order ref: ", newOrderRef);
         console.log(this.props.user);
-        newOrderRef.set(test)
+        newOrderRef.set(order)
             .then(() => {
                 let orderId = newOrderRef.id;
                 this.props.onPlaceOrder(orderId);
